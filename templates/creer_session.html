@@ -1,0 +1,9 @@
+{% block content %}
+  <h1>Créer une Session de Cours</h1>
+
+  <form method="post" action="{% url 'creer_session' %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Enregistrer la Session</button>
+  </form>
+{% endblock %}

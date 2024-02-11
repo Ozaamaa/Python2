@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Exemple de formulaire modifiable</title>
+</head>
+<body>
+
+<h2>Formulaire avec envoi automatique et barres de progression ajustables</h2>
+
+<form id="monFormulaire">
+    <div>
+        <label for="nom">Votre nom :</label>
+        <input type="text" id="nom" name="nom">
+    </div>
+
+    <fieldset>
+        <legend>En termes de difficulté</legend>
+        <input type="radio" id="couleur1" name="couleur" value="Rouge">
+        <label for="couleur1">Facile</label><br>
+        <input type="radio" id="couleur2" name="couleur" value="Vert">
+        <label for="couleur2">OK</label><br>
+        <input type="radio" id="couleur3" name="couleur" value="Bleu">
+        <label for="couleur3">Un peu compliqué</label><br>
+        <input type="radio" id="couleur4" name="couleur" value="Bleu">
+        <label for="couleur4">Très compliqué</label><br>
+        <input type="radio" id="couleur3" name="couleur" value="Bleu">
+        <label for="couleur3">Au secours </label><br>
+    </fieldset>
+
+    <fieldset>
+        <legend>Ma progression</legend>
+        <input type="checkbox" id="interet1" name="interet" value="Sport">
+        <label for="interet1">J’ai compris</label><br>
+        <input type="checkbox" id="interet2" name="interet" value="Lecture">
+        <label for="interet2">Je dois encore pratiquer</label><br>
+        <input type="checkbox" id="interet3" name="interet" value="Voyage">
+        <label for="interet3">C’est flou</label>
+    </fieldset>
+
+    <div>
+        <label for="rangeProgress1">Votre % d’avancement sur le TP</label>
+        <input type="range" id="rangeProgress1" name="progression" min="0" max="100" value="20" oninput="progress1.value=this.value">
+        <progress id="progress1" value="20" max="100"></progress><br>
+
+    </div>
+
+</form>
+
+
+<script>
+function collecterDonneesEtEnvoyer() {
+    const nom = document.getElementById('nom').value;
+    const couleurChoisie = document.querySelector('input[name="couleur"]:checked')?.value;
+    const interetsChoisis = Array.from(document.querySelectorAll('input[name="interet"]:checked')).map(el => el.value);
+    const progressions = [
+        document.getElementById('rangeProgress1').value,
+        document.getElementById('rangeProgress2').value,
+        document.getElementById('rangeProgress3').value
+    ];
+
+    const data = {
+        nom: nom,
+        couleur: couleurChoisie,
+        interets: interetsChoisis,
+        progressions: progressions
+    };
+
+    fetch('URL_DE_VOTRE_API', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Succès:', data);
+    })
+    .catch((error) => {
+        console.error('Erreur:', error);
+    });
+}
+
+// Exécuter la fonction toutes les minutes
+setInterval(collecterDonneesEtEnvoyer, 60000);
+</script>
+</body>
+</html>

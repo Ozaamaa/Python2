@@ -1,0 +1,15 @@
+{% block content %}
+  <h1>Liste des Sessions de Cours</h1>
+
+  <ul>
+    {% for session in sessions %}
+      <li>
+        {{ session.titre }} - 
+        Statut: {{ session.get_statut_display }} -
+        Heure d'ouverture: {{ session.heure_ouverture }} -
+        Heure de fermeture: {{ session.heure_fermeture }} -
+        <a href="{{ session.lien_formulaire }}">Lien vers le formulaire</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
